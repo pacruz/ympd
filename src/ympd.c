@@ -29,6 +29,9 @@
 #include "mpd_client.h"
 #include "config.h"
 
+char dirble_api_token[28];
+struct t_mpd mpd;
+
 extern char *optarg;
 
 int force_exit = 0;
