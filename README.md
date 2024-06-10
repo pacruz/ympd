@@ -52,6 +52,41 @@ To run ympd with SSL support:
 # ./ympd -w "ssl://8081:/path/to/ssl.pem"
 ```
 
+Docker configuration
+--------------------
+
+To build the ympd app into a docker image:
+
+```
+docker build -t pacruz-ympd .
+docker save pacruz-ympd > pacruz-ympd.tar
+```
+
+To run the container with docker compose, the following compose file should work
+
+```
+services:
+  ympd:
+    image: pacruz-ympd
+    container_name: pacruz-ympd
+    environment:
+      MPD_HOSTNAME: "<IP_ADDRESS>"
+      MPD_PORT: "6600"
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+```
+
+Then run 
+```
+docker compose up -d
+```
+
+Updates made for build errors
+-----------------------------
+
+https://github.com/notandy/ympd/issues/193
+
 Copyright
 ---------
 
