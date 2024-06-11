@@ -19,7 +19,8 @@ jobs:
       uses: docker/setup-buildx-action@v3
     - name: Run Buildx (push image)      
       run: |
-         --platform "linux/arm/v7" \
+        docker buildx build \
+        --platform "linux/arm/v7" \
         --tag "pacruz/ympd":${{ GITHUB_RUN_NUMBER }} \
         --file ./Dockerfile \
         --output type=image .
