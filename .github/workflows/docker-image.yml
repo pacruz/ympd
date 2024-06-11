@@ -9,10 +9,19 @@ on:
 jobs:
 
   build:
-
-    runs-on: arm64v8/ubuntu-latest
+    env:
+      DOCKER_TARGET_PLATFORM: linux/arm/v7                 
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    # - name: Build the Docker image
+    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Run Buildx (push image)      
+      run: |
+         --platform "linux/arm/v7" \
+        --tag "pacruz/ympd":${{ GITHUB_RUN_NUMBER }} \
+        --file ./Dockerfile \
+        --output type=image .
