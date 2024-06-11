@@ -25,7 +25,9 @@ jobs:
         echo ::set-output name=docker_platform::${DOCKER_TARGET_PLATFORM}        
         echo ::set-output name=docker_image::${DOCKER_IMAGE}
         echo ::set-output name=version::${GITHUB_RUN_NUMBER}
-    - name: Run Buildx (push image)      
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Run Buildx (push image)
       run: |
         docker buildx build \
         --platform ${{steps.prepare.outputs.docker_platform}} \
