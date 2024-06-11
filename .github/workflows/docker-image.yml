@@ -10,17 +10,25 @@ jobs:
 
   build:
     env:
-      DOCKER_TARGET_PLATFORM: linux/arm/v7                 
+      DOCKER_TARGET_PLATFORM: linux/arm/v7
+      DOCKER_IMAGE: pacruz/ympd
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+    - name: Prepare  
+      if: success()      
+      id: prepare      
+      run: |        
+        echo ::set-output name=docker_platform::${DOCKER_TARGET_PLATFORM}        
+        echo ::set-output name=docker_image::${DOCKER_IMAGE}
+        echo ::set-output name=version::${GITHUB_RUN_NUMBER}
     - name: Run Buildx (push image)      
       run: |
         docker buildx build \
-        --platform "linux/arm/v7" \
-        --tag "pacruz/ympd":${{ GITHUB_RUN_NUMBER }} \
+        --platform ${{steps.prepare.outputs.docker_platform}} \
+        --tag ${{steps.prepare.outputs.docker_image}}:${{ steps.prepare.outputs.version }} \
         --file ./Dockerfile \
         --output type=image .
