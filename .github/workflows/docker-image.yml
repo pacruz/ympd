@@ -28,10 +28,10 @@ jobs:
         password: ${{ secrets.GHCR_PAT }}
     
     - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/pacruz/ympd:${{ github.run_number }}
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: |
+          ghcr.io/pacruz/ympd:${{ github.run_number }}
